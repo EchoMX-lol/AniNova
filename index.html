@@ -12,6 +12,11 @@
       --purple: #a855f7;
       --text: #f5f0ff;
       --muted: #aaa0bb;
+      --header: #100c1b;
+      --border: #292036;
+      --card: #241a32;
+      --accent-soft: #302040;
+      --glow: #8b5cf622;
     }
 
     * { box-sizing: border-box; }
@@ -24,20 +29,20 @@
     }
 
     header {
-      height: 76px;
+      min-height: 76px;
       display: flex;
       align-items: center;
       gap: 24px;
-      padding: 0 5%;
-      background: #100c1b;
-      border-bottom: 1px solid #292036;
+      padding: 12px 5%;
+      background: var(--header);
+      border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 5;
     }
 
     .logo {
-      color: #c084fc;
+      color: var(--purple);
       font-size: 27px;
       font-weight: 900;
       letter-spacing: -1px;
@@ -57,7 +62,7 @@
       padding: 13px 17px;
       border: 1px solid #352844;
       border-radius: 12px;
-      background: #21182e;
+      background: var(--panel);
       color: white;
       outline: none;
       font-size: 14px;
@@ -71,8 +76,8 @@
       width: 225px;
       flex-shrink: 0;
       padding: 27px 15px;
-      background: #100c1b;
-      border-right: 1px solid #292036;
+      background: var(--header);
+      border-right: 1px solid var(--border);
     }
 
     .nav-label {
@@ -98,7 +103,7 @@
 
     .nav-btn:hover, .nav-btn.active {
       color: white;
-      background: #302040;
+      background: var(--accent-soft);
     }
 
     .nav-btn.active { box-shadow: inset 3px 0 var(--purple); }
@@ -111,15 +116,13 @@
       overflow: hidden;
       min-height: 340px;
       padding: 48px;
-      border: 1px solid #7541a8;
+      border: 1px solid var(--purple);
       border-radius: 22px;
       background:
-        linear-gradient(90deg, #100817 0%, #160b24eF 38%, #190d27a8 68%, #12091966 100%),
-        radial-gradient(ellipse at 80% 40%, #a855f766, transparent 48%),
-        linear-gradient(135deg, #32134e, #100817 75%);
-      box-shadow:
-        0 0 35px #8b5cf622,
-        inset 0 0 45px #a855f711;
+        linear-gradient(90deg, var(--bg) 0%, var(--panel) 48%, transparent 100%),
+        radial-gradient(ellipse at 80% 40%, var(--glow), transparent 60%),
+        linear-gradient(135deg, var(--accent-soft), var(--bg) 75%);
+      box-shadow: 0 0 35px var(--glow), inset 0 0 45px var(--glow);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -131,37 +134,32 @@
       position: absolute;
       z-index: -1;
       inset: 0;
-      background:
-        linear-gradient(115deg, transparent 30%, #c084fc12 55%, transparent 75%);
+      background: linear-gradient(115deg, transparent 30%, var(--glow) 55%, transparent 75%);
       pointer-events: none;
     }
 
     .hero h1 {
       max-width: 650px;
-      font-size: clamp(36px, 5vw, 62px);
+      font-size: clamp(30px, 5vw, 48px);
       line-height: 1.08;
       letter-spacing: -2px;
-      text-shadow: 0 0 30px #a855f744;
-      margin: 16px 0;
+      text-shadow: 0 0 30px var(--glow);
+      margin: 12px 0;
     }
 
     .hero p {
-      color: #d0c2df;
-      max-width: 480px;
-      line-height: 1.8;
-      font-size: 15px;
-      margin: 0 0 25px;
+      color: #c4b7d6;
+      max-width: 470px;
+      line-height: 1.7;
+      margin: 0 0 22px;
     }
 
     .eyebrow {
-      color: #d8b4fe;
+      color: var(--purple);
       font-size: 12px;
       font-weight: bold;
       letter-spacing: 3px;
     }
-
-    .hero h1 { font-size: clamp(30px, 5vw, 48px); margin: 12px 0; }
-    .hero p { color: #c4b7d6; max-width: 470px; line-height: 1.7; margin: 0 0 22px; }
 
     .hero button, .back-btn {
       width: fit-content;
@@ -204,8 +202,8 @@
       overflow: hidden;
       aspect-ratio: 3 / 4;
       border-radius: 13px;
-      background: #241a32;
-      border: 1px solid #30233e;
+      background: var(--card);
+      border: 1px solid var(--border);
     }
 
     .cover img {
@@ -251,7 +249,7 @@
       padding: 16px;
       margin: 10px 0;
       background: var(--panel);
-      border: 1px solid #30233e;
+      border: 1px solid var(--border);
       border-radius: 10px;
     }
 
@@ -262,6 +260,155 @@
       font-size: 12px;
       text-align: center;
       padding: 35px 10px;
+    }
+
+    /* Settings window */
+    .settings-panel {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(5, 2, 12, .78);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .settings-content {
+      position: relative;
+      width: 100%;
+      max-width: 460px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 30px;
+      border: 1px solid var(--purple);
+      border-radius: 20px;
+      background: linear-gradient(145deg, var(--panel), var(--bg));
+      color: var(--text);
+      box-shadow: 0 0 35px var(--glow);
+    }
+
+    .settings-content h2 {
+      margin-top: 0;
+      color: var(--purple);
+    }
+
+    .settings-content p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .settings-section {
+      border-top: 1px solid var(--border);
+      margin-top: 22px;
+      padding-top: 18px;
+    }
+
+    .settings-section h3 {
+      font-size: 15px;
+      margin: 0 0 8px;
+    }
+
+    .settings-section > p {
+      font-size: 12px;
+      margin: 0 0 12px;
+    }
+
+    #closeSettings {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      border: none;
+      background: transparent;
+      color: var(--purple);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .settings-content label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .settings-content input[type="checkbox"] {
+      accent-color: var(--purple);
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+    }
+
+    .settings-content select {
+      width: 100%;
+      padding: 11px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      margin-top: 8px;
+    }
+
+    .color-options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .color-choice {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 10px 5px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: var(--bg);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .color-choice[aria-pressed="true"] {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 1px var(--purple);
+    }
+
+    .color-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .reset-btn {
+      width: 100%;
+      margin-top: 22px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: var(--accent-soft);
+      color: var(--text);
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .settings-status {
+      min-height: 18px;
+      font-size: 12px;
+      color: var(--purple);
+      margin-top: 10px;
+    }
+
+    .no-animations *, .no-animations *::before, .no-animations *::after {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
     }
 
     @media (max-width: 850px) {
@@ -283,7 +430,7 @@
         gap: 5px;
         padding: 9px;
         border-right: 0;
-        border-bottom: 1px solid #292036;
+        border-bottom: 1px solid var(--border);
       }
 
       .nav-label { display: none; }
@@ -291,65 +438,7 @@
       .hero { padding: 25px 20px; min-height: 220px; }
       .anime-grid { gap: 12px; }
       .anime-card h3 { font-size: 14px; }
-    }
-
-    .settings-panel {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: rgba(5, 2, 12, 0.78);
-      backdrop-filter: blur(8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .settings-content {
-      position: relative;
-      width: 100%;
-      max-width: 420px;
-      padding: 30px;
-      border: 1px solid #7541a8;
-      border-radius: 20px;
-      background: linear-gradient(145deg, #21132f, #100817);
-      color: #f5eaff;
-      box-shadow: 0 0 35px #8b5cf633;
-    }
-
-    .settings-content h2 {
-      margin-top: 0;
-      color: #d8b4fe;
-    }
-
-    .settings-content p {
-      color: #c4b7d6;
-      line-height: 1.6;
-    }
-
-    #closeSettings {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      border: none;
-      background: transparent;
-      color: #d8b4fe;
-      font-size: 22px;
-      cursor: pointer;
-    }
-
-    .settings-content label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 20px;
-      cursor: pointer;
-    }
-
-    .settings-content input[type="checkbox"] {
-      accent-color: #a855f7;
-      width: 17px;
-      height: 17px;
+      .settings-content { padding: 25px 20px; }
     }
   </style>
 </head>
@@ -383,7 +472,7 @@
           <div class="eyebrow">YOUR NEXT ADVENTURE STARTS HERE</div>
           <h1>Enter the world of anime.</h1>
           <p>Discover new worlds, unforgettable characters, and your next favorite series with AniNova.</p>
-          <button onclick="document.getElementById('anime-section').scrollIntoView({behavior:'smooth'})">Explore Anime →</button>
+          <button id="exploreBtn">Explore Anime →</button>
         </div>
 
         <div class="section-head" id="anime-section">
@@ -402,16 +491,70 @@
     </main>
   </div>
 
-  <!-- Settings panel is now before the script so JavaScript can find it. -->
+  <!-- Settings panel -->
   <div id="settingsPanel" class="settings-panel" style="display: none;">
-    <div class="settings-content">
+    <div class="settings-content" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
       <button id="closeSettings" aria-label="Close settings">✕</button>
-      <h2>⚙️ Settings</h2>
-      <p>Customize your AniNova experience.</p>
-      <label>
-        <input type="checkbox" id="animationsToggle" checked>
-        Enable animations
-      </label>
+      <h2 id="settingsTitle">⚙️ AniNova Settings</h2>
+      <p>Make AniNova feel like your own.</p>
+
+      <div class="settings-section">
+        <h3>🎨 Accent color</h3>
+        <p>Change the color of buttons, highlights, borders, and glow effects.</p>
+        <div class="color-options">
+          <button class="color-choice" data-color="purple" aria-pressed="true">
+            <span class="color-dot" style="background:#a855f7"></span>Purple
+          </button>
+          <button class="color-choice" data-color="blue" aria-pressed="false">
+            <span class="color-dot" style="background:#3b82f6"></span>Blue
+          </button>
+          <button class="color-choice" data-color="red" aria-pressed="false">
+            <span class="color-dot" style="background:#ef4444"></span>Red
+          </button>
+          <button class="color-choice" data-color="green" aria-pressed="false">
+            <span class="color-dot" style="background:#22c55e"></span>Green
+          </button>
+          <button class="color-choice" data-color="pink" aria-pressed="false">
+            <span class="color-dot" style="background:#ec4899"></span>Pink
+          </button>
+          <button class="color-choice" data-color="orange" aria-pressed="false">
+            <span class="color-dot" style="background:#f97316"></span>Orange
+          </button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>🖌️ Background style</h3>
+        <p>Choose a coordinated background palette.</p>
+        <select id="backgroundStyle" aria-label="Background style">
+          <option value="midnight">Midnight Purple (default)</option>
+          <option value="ocean">Deep Ocean</option>
+          <option value="forest">Dark Forest</option>
+          <option value="rose">Dark Rose</option>
+          <option value="slate">Midnight Slate</option>
+        </select>
+      </div>
+
+      <div class="settings-section">
+        <h3>✨ Motion</h3>
+        <p>Animations are small movements and transitions, such as cards lifting when you hover over them. Turn them off for a calmer browsing experience.</p>
+        <label>
+          <input type="checkbox" id="animationsToggle" checked>
+          Enable movement effects
+        </label>
+      </div>
+
+      <div class="settings-section">
+        <h3>🔎 Search</h3>
+        <p>Choose whether your search is cleared when you return to Home.</p>
+        <label>
+          <input type="checkbox" id="clearSearchToggle">
+          Clear search when returning Home
+        </label>
+      </div>
+
+      <button class="reset-btn" id="resetSettings">↩️ Reset all settings</button>
+      <div class="settings-status" id="settingsStatus" aria-live="polite"></div>
     </div>
   </div>
 
@@ -449,11 +592,164 @@
       }
     ];
 
+    const defaultSettings = {
+      color: "purple",
+      background: "midnight",
+      animations: true,
+      clearSearch: false
+    };
+
+    const colorThemes = {
+      purple: {
+        accent: "#a855f7",
+        soft: "#302040",
+        glow: "#8b5cf622"
+      },
+      blue: {
+        accent: "#3b82f6",
+        soft: "#172c49",
+        glow: "#3b82f622"
+      },
+      red: {
+        accent: "#ef4444",
+        soft: "#421d2a",
+        glow: "#ef444422"
+      },
+      green: {
+        accent: "#22c55e",
+        soft: "#173c2c",
+        glow: "#22c55e22"
+      },
+      pink: {
+        accent: "#ec4899",
+        soft: "#421b36",
+        glow: "#ec489922"
+      },
+      orange: {
+        accent: "#f97316",
+        soft: "#422819",
+        glow: "#f9731622"
+      }
+    };
+
+    const backgroundThemes = {
+      midnight: {
+        bg: "#0c0914",
+        panel: "#171124",
+        header: "#100c1b",
+        border: "#292036",
+        card: "#241a32",
+        text: "#f5f0ff",
+        muted: "#aaa0bb"
+      },
+      ocean: {
+        bg: "#07111d",
+        panel: "#101e30",
+        header: "#091725",
+        border: "#20354b",
+        card: "#15283c",
+        text: "#edf6ff",
+        muted: "#9eb4ca"
+      },
+      forest: {
+        bg: "#09130f",
+        panel: "#14231a",
+        header: "#0d1912",
+        border: "#263b2d",
+        card: "#1b2e22",
+        text: "#eff9f0",
+        muted: "#a6b9a9"
+      },
+      rose: {
+        bg: "#180b13",
+        panel: "#291421",
+        header: "#1d0e17",
+        border: "#452537",
+        card: "#351b2b",
+        text: "#fff0f6",
+        muted: "#c9a8b8"
+      },
+      slate: {
+        bg: "#0d1117",
+        panel: "#191f29",
+        header: "#111720",
+        border: "#2c3543",
+        card: "#202936",
+        text: "#f0f4fa",
+        muted: "#a8b2c2"
+      }
+    };
+
     let currentFilter = "All";
     let currentAnime = null;
+    let settings = loadSettings();
 
     const grid = document.getElementById("anime-grid");
     const search = document.getElementById("search");
+    const settingsBtn = document.getElementById("settingsBtn");
+    const settingsPanel = document.getElementById("settingsPanel");
+    const closeSettings = document.getElementById("closeSettings");
+    const animationsToggle = document.getElementById("animationsToggle");
+    const clearSearchToggle = document.getElementById("clearSearchToggle");
+    const backgroundStyle = document.getElementById("backgroundStyle");
+    const settingsStatus = document.getElementById("settingsStatus");
+
+    function loadSettings() {
+      try {
+        const saved = localStorage.getItem("aninova-settings");
+        return saved
+          ? { ...defaultSettings, ...JSON.parse(saved) }
+          : { ...defaultSettings };
+      } catch (error) {
+        return { ...defaultSettings };
+      }
+    }
+
+    function saveSettings() {
+      try {
+        localStorage.setItem("aninova-settings", JSON.stringify(settings));
+        settingsStatus.textContent = "Settings saved automatically.";
+      } catch (error) {
+        settingsStatus.textContent = "Settings apply now, but this browser couldn't save them.";
+      }
+    }
+
+    function applySettings() {
+      const color = colorThemes[settings.color] || colorThemes.purple;
+      const background = backgroundThemes[settings.background] || backgroundThemes.midnight;
+      const root = document.documentElement;
+
+      root.style.setProperty("--purple", color.accent);
+      root.style.setProperty("--accent-soft", color.soft);
+      root.style.setProperty("--glow", color.glow);
+
+      root.style.setProperty("--bg", background.bg);
+      root.style.setProperty("--panel", background.panel);
+      root.style.setProperty("--header", background.header);
+      root.style.setProperty("--border", background.border);
+      root.style.setProperty("--card", background.card);
+      root.style.setProperty("--text", background.text);
+      root.style.setProperty("--muted", background.muted);
+
+      document.body.classList.toggle("no-animations", !settings.animations);
+
+      document.querySelectorAll(".color-choice").forEach(button => {
+        button.setAttribute(
+          "aria-pressed",
+          String(button.dataset.color === settings.color)
+        );
+      });
+
+      animationsToggle.checked = settings.animations;
+      clearSearchToggle.checked = settings.clearSearch;
+      backgroundStyle.value = settings.background;
+    }
+
+    function updateSetting(key, value) {
+      settings[key] = value;
+      applySettings();
+      saveSettings();
+    }
 
     function renderAnime() {
       const query = search.value.toLowerCase().trim();
@@ -471,10 +767,17 @@
         return matchesSearch && matchesFilter;
       });
 
-      document.getElementById("section-title").textContent =
-        currentFilter === "All" ? "Featured Anime" : currentFilter === "Dub" ? "Anime Dubs" :
-        currentFilter === "Sub" ? "Anime Subs" : currentFilter === "Movie" ? "Anime Movies" :
-        currentFilter === "Trending" ? "Trending Anime" : "Highest Rated Anime";
+      const titles = {
+        "All": "Featured Anime",
+        "Dub": "Anime Dubs",
+        "Sub": "Anime Subs",
+        "Movie": "Anime Movies",
+        "Watch Parties": "Watch Parties",
+        "Trending": "Trending Anime",
+        "Top Rated": "Highest Rated Anime"
+      };
+
+      document.getElementById("section-title").textContent = titles[currentFilter] || currentFilter;
 
       document.getElementById("result-count").textContent =
         filtered.length + (filtered.length === 1 ? " title" : " titles");
@@ -492,6 +795,7 @@
         card.tabIndex = 0;
         card.setAttribute("role", "button");
         card.setAttribute("aria-label", "View " + item.title);
+
         card.innerHTML = `
           <div class="cover">
             <img src="${item.image}" alt="${item.title} cover" loading="lazy">
@@ -516,63 +820,115 @@
       currentAnime = item;
       document.getElementById("home-view").hidden = true;
       document.getElementById("details-view").hidden = false;
+
       document.getElementById("details-content").innerHTML = `
         <div style="margin-top:25px; overflow:auto">
           <img class="details-cover" src="${item.image}" alt="${item.title} cover">
           <div class="eyebrow">${item.genres.toUpperCase()}</div>
           <h1>${item.title}</h1>
-          <p>★ ${item.rating} / 10 &nbsp; · &nbsp; ${item.type === "Movie" ? "Movie" : item.episodes + " episodes"} </p>
+          <p>★ ${item.rating} / 10 &nbsp; · &nbsp; ${item.type === "Movie" ? "Movie" : item.episodes + " episodes"}</p>
           <p>${item.description}</p>
           <p><strong>Audio:</strong> ${item.type === "Dub" ? "English dub demo category" : item.type === "Sub" ? "Subtitled demo category" : "Movie demo category"}</p>
         </div>
         <div class="episode-list">
           <h2>${item.type === "Movie" ? "Movie information" : "Episodes"}</h2>
-          ${Array.from({length: item.type === "Movie" ? 1 : item.episodes}, (_, i) =>
-            `<div class="episode">${item.type === "Movie" ? "Movie listing" : "Episode " + (i + 1)} <span style="color:#aaa0bb"> · Demo listing</span></div>`
+          ${Array.from({ length: item.type === "Movie" ? 1 : item.episodes }, (_, i) =>
+            `<div class="episode">${item.type === "Movie" ? "Movie listing" : "Episode " + (i + 1)} <span style="color:var(--muted)"> · Demo listing</span></div>`
           ).join("")}
-          <p style="color:#aaa0bb;font-size:12px">This is a demo catalog. Video playback isn't connected yet.</p>
+          <p style="color:var(--muted);font-size:12px">This is a demo catalog. Video playback isn't connected yet.</p>
         </div>`;
 
-      window.scrollTo({top: 0, behavior: "smooth"});
+      window.scrollTo({ top: 0, behavior: settings.animations ? "smooth" : "auto" });
     }
 
     function showHome() {
       document.getElementById("details-view").hidden = true;
       document.getElementById("home-view").hidden = false;
       currentAnime = null;
-      window.scrollTo({top: 0, behavior: "smooth"});
+
+      if (settings.clearSearch) {
+        search.value = "";
+        renderAnime();
+      }
+
+      window.scrollTo({ top: 0, behavior: settings.animations ? "smooth" : "auto" });
     }
 
+    function openSettings() {
+      settingsPanel.style.display = "flex";
+      settingsStatus.textContent = "";
+      closeSettings.focus();
+    }
+
+    function hideSettings() {
+      settingsPanel.style.display = "none";
+      settingsBtn.focus();
+    }
+
+    settingsBtn.addEventListener("click", openSettings);
+    closeSettings.addEventListener("click", hideSettings);
+
+    settingsPanel.addEventListener("click", event => {
+      if (event.target === settingsPanel) hideSettings();
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && settingsPanel.style.display === "flex") {
+        hideSettings();
+      }
+    });
+
+    document.querySelectorAll(".color-choice").forEach(button => {
+      button.addEventListener("click", () => {
+        updateSetting("color", button.dataset.color);
+      });
+    });
+
+    backgroundStyle.addEventListener("change", () => {
+      updateSetting("background", backgroundStyle.value);
+    });
+
+    animationsToggle.addEventListener("change", () => {
+      updateSetting("animations", animationsToggle.checked);
+    });
+
+    clearSearchToggle.addEventListener("change", () => {
+      updateSetting("clearSearch", clearSearchToggle.checked);
+    });
+
+    document.getElementById("resetSettings").addEventListener("click", () => {
+      settings = { ...defaultSettings };
+      applySettings();
+      saveSettings();
+      settingsStatus.textContent = "Settings restored to defaults.";
+    });
+
     document.getElementById("back-btn").addEventListener("click", showHome);
+
+    document.getElementById("exploreBtn").addEventListener("click", () => {
+      document.getElementById("anime-section").scrollIntoView({
+        behavior: settings.animations ? "smooth" : "auto"
+      });
+    });
+
     search.addEventListener("input", renderAnime);
 
     document.querySelectorAll(".nav-btn[data-filter]").forEach(button => {
       button.addEventListener("click", () => {
         currentFilter = button.dataset.filter;
-        document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+
+        document.querySelectorAll(".nav-btn[data-filter]").forEach(navButton => {
+          navButton.classList.remove("active");
+        });
+
         button.classList.add("active");
         showHome();
         renderAnime();
       });
     });
 
-    const settingsBtn = document.getElementById("settingsBtn");
-    const settingsPanel = document.getElementById("settingsPanel");
-    const closeSettings = document.getElementById("closeSettings");
-
-    settingsBtn.addEventListener("click", () => {
-      settingsPanel.style.display = "flex";
-    });
-
-    closeSettings.addEventListener("click", () => {
-      settingsPanel.style.display = "none";
-    });
-
-    settingsPanel.addEventListener("click", (event) => {
-      if (event.target === settingsPanel) {
-        settingsPanel.style.display = "none";
-      }
-    });
+    applySettings();
+    renderAnime();
   </script>
 </body>
 </html>
