@@ -1,1 +1,445 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AniNova — Discover Anime</title>
+  <style>
+    :root {
+      --bg: #0c0914;
+      --panel: #171124;
+      --purple: #a855f7;
+      --text: #f5f0ff;
+      --muted: #aaa0bb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 0 5%;
+      background: #100c1b;
+      border-bottom: 1px solid #292036;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .logo {
+      color: #c084fc;
+      font-size: 27px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      white-space: nowrap;
+    }
+
+    .logo span { color: white; }
+
+    .search {
+      flex: 1;
+      max-width: 540px;
+      margin-left: auto;
+    }
+
+    .search input {
+      width: 100%;
+      padding: 13px 17px;
+      border: 1px solid #352844;
+      border-radius: 12px;
+      background: #21182e;
+      color: white;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .search input:focus { border-color: var(--purple); }
+
+    .layout { display: flex; min-height: calc(100vh - 76px); }
+
+    aside {
+      width: 225px;
+      flex-shrink: 0;
+      padding: 27px 15px;
+      background: #100c1b;
+      border-right: 1px solid #292036;
+    }
+
+    .nav-label {
+      color: #796d8d;
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin: 20px 12px 10px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      display: block;
+      text-align: left;
+      padding: 13px 12px;
+      border: 0;
+      border-radius: 9px;
+      margin: 4px 0;
+      color: #c8bfd8;
+      background: transparent;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      color: white;
+      background: #302040;
+    }
+
+    .nav-btn.active { box-shadow: inset 3px 0 var(--purple); }
+
+    main { flex: 1; min-width: 0; padding: 34px 4%; }
+
+    .hero {
+      min-height: 235px;
+      padding: 35px;
+      border: 1px solid #57347c;
+      border-radius: 20px;
+      background:
+        radial-gradient(ellipse at 85% 20%, #6933a966, transparent 45%),
+        linear-gradient(120deg, #251438, #151020 70%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 35px;
+    }
+
+    .eyebrow {
+      color: #d8b4fe;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 3px;
+    }
+
+    .hero h1 { font-size: clamp(30px, 5vw, 48px); margin: 12px 0; }
+    .hero p { color: #c4b7d6; max-width: 470px; line-height: 1.7; margin: 0 0 22px; }
+
+    .hero button, .back-btn {
+      width: fit-content;
+      background: var(--purple);
+      color: white;
+      border: 0;
+      padding: 12px 19px;
+      border-radius: 9px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 25px 0 18px;
+    }
+
+    .section-head h2 { font-size: 22px; margin: 0; }
+    .section-head span { color: var(--muted); font-size: 13px; }
+
+    .anime-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .anime-card {
+      min-width: 0;
+      cursor: pointer;
+      transition: transform .2s;
+    }
+
+    .anime-card:hover { transform: translateY(-5px); }
+
+    .cover {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+      border-radius: 13px;
+      background: #241a32;
+      border: 1px solid #30233e;
+    }
+
+    .cover img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transition: transform .3s;
+    }
+
+    .anime-card:hover img { transform: scale(1.04); }
+
+    .tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #171020dd;
+      border: 1px solid #ffffff22;
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 10px;
+      font-weight: bold;
+    }
+
+    .anime-card h3 { margin: 12px 0 6px; font-size: 16px; }
+    .anime-card p { color: var(--muted); font-size: 12px; margin: 0; line-height: 1.5; }
+
+    .details { max-width: 850px; }
+    .details-cover {
+      width: 190px;
+      max-width: 40%;
+      border-radius: 12px;
+      float: left;
+      margin: 0 25px 20px 0;
+    }
+
+    .details h1 { font-size: 34px; }
+    .details p { color: #c4b7d6; line-height: 1.8; }
+    .episode-list { clear: both; padding-top: 15px; }
+    .episode {
+      padding: 16px;
+      margin: 10px 0;
+      background: var(--panel);
+      border: 1px solid #30233e;
+      border-radius: 10px;
+    }
+
+    .empty { color: var(--muted); padding: 30px 0; }
+
+    footer {
+      color: #796d8d;
+      font-size: 12px;
+      text-align: center;
+      padding: 35px 10px;
+    }
+
+    @media (max-width: 850px) {
+      aside { width: 185px; }
+      .anime-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      main { padding: 25px 3%; }
+    }
+
+    @media (max-width: 560px) {
+      header { padding: 12px 4%; height: auto; flex-wrap: wrap; gap: 12px; }
+      .logo { font-size: 23px; }
+      .search { order: 2; flex-basis: 100%; max-width: none; }
+      .layout { display: block; }
+      aside {
+        width: 100%;
+        display: flex;
+        overflow-x: auto;
+        gap: 5px;
+        padding: 9px;
+        border-right: 0;
+        border-bottom: 1px solid #292036;
+      }
+      .nav-label { display: none; }
+      .nav-btn { width: auto; flex-shrink: 0; padding: 10px; font-size: 12px; }
+      .hero { padding: 25px 20px; min-height: 220px; }
+      .anime-grid { gap: 12px; }
+      .anime-card h3 { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Ani<span>Nova</span></div>
+    <div class="search">
+      <input id="search" type="search" placeholder="Search anime..." aria-label="Search anime">
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside>
+      <div class="nav-label">DISCOVER</div>
+      <button class="nav-btn active" data-filter="All">⌂ &nbsp; Home</button>
+      <button class="nav-btn" data-filter="Dub">🎙 &nbsp; Anime Dubs</button>
+      <button class="nav-btn" data-filter="Sub">字幕 &nbsp; Anime Subs</button>
+      <button class="nav-btn" data-filter="Movie">▣ &nbsp; Movies</button>
+      <div class="nav-label">YOUR PICKS</div>
+      <button class="nav-btn" data-filter="Trending">↗ &nbsp; Trending Anime</button>
+      <button class="nav-btn" data-filter="Top Rated">★ &nbsp; Highest Rated</button>
+    </aside>
+
+    <main>
+      <section id="home-view">
+        <div class="hero">
+          <div class="eyebrow">YOUR NEXT ADVENTURE STARTS HERE</div>
+          <h1>Enter the world of anime.</h1>
+          <p>Discover new worlds, unforgettable characters, and your next favorite series with AniNova.</p>
+          <button onclick="document.getElementById('anime-section').scrollIntoView({behavior:'smooth'})">Explore Anime →</button>
+        </div>
+
+        <div class="section-head" id="anime-section">
+          <h2 id="section-title">Featured Anime</h2>
+          <span id="result-count"></span>
+        </div>
+        <div class="anime-grid" id="anime-grid"></div>
+      </section>
+
+      <section id="details-view" hidden>
+        <button class="back-btn" id="back-btn">← Back to anime</button>
+        <div class="details" id="details-content"></div>
+      </section>
+
+      <footer>Made for anime fans, by anime fans. · AniNova</footer>
+    </main>
+  </div>
+
+  <script>
+    const anime = [
+      {
+        title: "Shadow Legends",
+        genres: "Action · Adventure",
+        image: "https://i.ibb.co/LDmGfsmy/659cc9fc-a8c1-4678-89e0-6aae24427530-2-1.jpg",
+        type: "Dub",
+        rating: "9.2",
+        description: "Enter a world of hidden powers, legendary warriors, and dangerous quests. One hero's journey could change the fate of every kingdom.",
+        episodes: 24,
+        trending: true
+      },
+      {
+        title: "Neon Skies",
+        genres: "Sci-fi · Fantasy",
+        image: "https://i.ibb.co/9kc3hJwX/Screenshot-2026-10-16-12-05-06-AM.png",
+        type: "Sub",
+        rating: "8.9",
+        description: "Above a futuristic city, secrets hide among the neon lights. A group of unlikely allies must uncover the truth before their world changes forever.",
+        episodes: 12,
+        trending: true
+      },
+      {
+        title: "Spirit Academy",
+        genres: "Fantasy · Mystery",
+        image: "https://i.ibb.co/RTbWGDPc/Screenshot-2026-10-15-11-46-49-PM.png",
+        type: "Movie",
+        rating: "9.5",
+        description: "At an academy where spirits and humans meet, a curious student discovers a mystery that has remained hidden for generations.",
+        episodes: 1,
+        trending: false
+      }
+    ];
+
+    let currentFilter = "All";
+    let currentAnime = null;
+
+    const grid = document.getElementById("anime-grid");
+    const search = document.getElementById("search");
+
+    function renderAnime() {
+      const query = search.value.toLowerCase().trim();
+
+      const filtered = anime.filter(item => {
+        const matchesSearch = (item.title + " " + item.genres).toLowerCase().includes(query);
+        const matchesFilter =
+          currentFilter === "All" ||
+          (currentFilter === "Dub" && item.type === "Dub") ||
+          (currentFilter === "Sub" && item.type === "Sub") ||
+          (currentFilter === "Movie" && item.type === "Movie") ||
+          (currentFilter === "Trending" && item.trending) ||
+          (currentFilter === "Top Rated" && Number(item.rating) >= 9);
+
+        return matchesSearch && matchesFilter;
+      });
+
+      document.getElementById("section-title").textContent =
+        currentFilter === "All" ? "Featured Anime" : currentFilter === "Dub" ? "Anime Dubs" :
+        currentFilter === "Sub" ? "Anime Subs" : currentFilter === "Movie" ? "Anime Movies" :
+        currentFilter === "Trending" ? "Trending Anime" : "Highest Rated Anime";
+
+      document.getElementById("result-count").textContent =
+        filtered.length + (filtered.length === 1 ? " title" : " titles");
+
+      grid.innerHTML = "";
+
+      if (!filtered.length) {
+        grid.innerHTML = '<p class="empty">No anime found. Try another search!</p>';
+        return;
+      }
+
+      filtered.forEach(item => {
+        const card = document.createElement("article");
+        card.className = "anime-card";
+        card.tabIndex = 0;
+        card.setAttribute("role", "button");
+        card.setAttribute("aria-label", "View " + item.title);
+        card.innerHTML = `
+          <div class="cover">
+            <img src="${item.image}" alt="${item.title} cover" loading="lazy">
+            <span class="tag">★ ${item.rating}</span>
+          </div>
+          <h3>${item.title}</h3>
+          <p>${item.genres}</p>`;
+        card.addEventListener("click", () => showDetails(item));
+        card.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            showDetails(item);
+          }
+        });
+        grid.appendChild(card);
+      });
+    }
+
+    function showDetails(item) {
+      currentAnime = item;
+      document.getElementById("home-view").hidden = true;
+      document.getElementById("details-view").hidden = false;
+      document.getElementById("details-content").innerHTML = `
+        <div style="margin-top:25px; overflow:auto">
+          <img class="details-cover" src="${item.image}" alt="${item.title} cover">
+          <div class="eyebrow">${item.genres.toUpperCase()}</div>
+          <h1>${item.title}</h1>
+          <p>★ ${item.rating} / 10 &nbsp; · &nbsp; ${item.type === "Movie" ? "Movie" : item.episodes + " episodes"} </p>
+          <p>${item.description}</p>
+          <p><strong>Audio:</strong> ${item.type === "Dub" ? "English dub demo category" : item.type === "Sub" ? "Subtitled demo category" : "Movie demo category"}</p>
+        </div>
+        <div class="episode-list">
+          <h2>${item.type === "Movie" ? "Movie information" : "Episodes"}</h2>
+          ${Array.from({length: item.type === "Movie" ? 1 : item.episodes}, (_, i) =>
+            `<div class="episode">${item.type === "Movie" ? "Movie listing" : "Episode " + (i + 1)} <span style="color:#aaa0bb"> · Demo listing</span></div>`
+          ).join("")}
+          <p style="color:#aaa0bb;font-size:12px">This is a demo catalog. Video playback isn't connected yet.</p>
+        </div>`;
+      window.scrollTo({top: 0, behavior: "smooth"});
+    }
+
+    function showHome() {
+      document.getElementById("details-view").hidden = true;
+      document.getElementById("home-view").hidden = false;
+      currentAnime = null;
+      window.scrollTo({top: 0, behavior: "smooth"});
+    }
+
+    document.getElementById("back-btn").addEventListener("click", showHome);
+    search.addEventListener("input", renderAnime);
+
+    document.querySelectorAll(".nav-btn").forEach(button => {
+      button.addEventListener("click", () => {
+        currentFilter = button.dataset.filter;
+        document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+        button.classList.add("active");
+        showHome();
+        renderAnime();
+      });
+    });
+
+    renderAnime();
+  </script>
+</body>
+</html>
