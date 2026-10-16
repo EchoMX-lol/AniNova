@@ -526,8 +526,8 @@
     document.getElementById("back-btn").addEventListener("click", showHome);
     search.addEventListener("input", renderAnime);
 
-document.querySelectorAll(".nav-btn[data-filter]").forEach(button => {
-  button.addEventListener("click", () => {
+    document.querySelectorAll(".nav-btn[data-filter]").forEach(button => {
+      button.addEventListener("click", () => {
         currentFilter = button.dataset.filter;
         document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
         button.classList.add("active");
@@ -537,35 +537,37 @@ document.querySelectorAll(".nav-btn[data-filter]").forEach(button => {
     });
 
     renderAnime();
+
     const settingsBtn = document.getElementById("settingsBtn");
-const settingsPanel = document.getElementById("settingsPanel");
-const closeSettings = document.getElementById("closeSettings");
+    const settingsPanel = document.getElementById("settingsPanel");
+    const closeSettings = document.getElementById("closeSettings");
 
-settingsBtn.addEventListener("click", () => {
-  settingsPanel.style.display = "flex";
-});
+    settingsBtn.addEventListener("click", () => {
+      settingsPanel.style.display = "flex";
+    });
 
-closeSettings.addEventListener("click", () => {
-  settingsPanel.style.display = "none";
-});
+    closeSettings.addEventListener("click", () => {
+      settingsPanel.style.display = "none";
+    });
 
-settingsPanel.addEventListener("click", (event) => {
-  if (event.target === settingsPanel) {
-    settingsPanel.style.display = "none";
-  }
-});
-    <!-- Settings Panel -->
-  <div id="settingsPanel" class="settings-panel" style="display: none;">
-    <div class="settings-content">
-      <button id="closeSettings">✕</button>
-      <h2>⚙️ Settings</h2>
-      <p>Customize your AniNova experience.</p>
-      <label>
-        <input type="checkbox" id="animationsToggle" checked>
-        Enable animations
-      </label>
-    </div>
-  </div>
+    settingsPanel.addEventListener("click", (event) => {
+      if (event.target === settingsPanel) {
+        settingsPanel.style.display = "none";
+      }
+    });
   </script>
+
+    <!-- Settings Panel -->
+    <div id="settingsPanel" class="settings-panel" style="display: none;">
+      <div class="settings-content">
+        <button id="closeSettings">✕</button>
+        <h2>⚙️ Settings</h2>
+        <p>Customize your AniNova experience.</p>
+        <label>
+          <input type="checkbox" id="animationsToggle" checked>
+          Enable animations
+        </label>
+      </div>
+    </div>
   </body>
 </html>
