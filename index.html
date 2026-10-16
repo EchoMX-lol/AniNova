@@ -526,8 +526,8 @@
     document.getElementById("back-btn").addEventListener("click", showHome);
     search.addEventListener("input", renderAnime);
 
-    document.querySelectorAll(".nav-btn").forEach(button => {
-      button.addEventListener("click", () => {
+document.querySelectorAll(".nav-btn[data-filter]").forEach(button => {
+  button.addEventListener("click", () => {
         currentFilter = button.dataset.filter;
         document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
         button.classList.add("active");
@@ -556,17 +556,16 @@ settingsPanel.addEventListener("click", (event) => {
 });
   </script>
   <!-- Settings Panel -->
-<div id="settingsPanel" class="settings-panel" style="display: none;">
-  <div class="settings-content">
-    <button id="closeSettings">✕</button>
-    <h2>⚙️ Settings</h2>
-    <p>Customize your AniNova experience.</p>
-
-    <label>
-      <input type="checkbox" id="animationsToggle" checked>
-      Enable animations
-    </label>
+  <div id="settingsPanel" class="settings-panel" style="display: none;">
+    <div class="settings-content">
+      <button id="closeSettings">✕</button>
+      <h2>⚙️ Settings</h2>
+      <p>Customize your AniNova experience.</p>
+      <label>
+        <input type="checkbox" id="animationsToggle" checked>
+        Enable animations
+      </label>
+    </div>
   </div>
-</div>
-</body>
+  </body>
 </html>
