@@ -106,18 +106,52 @@
     main { flex: 1; min-width: 0; padding: 34px 4%; }
 
     .hero {
-      min-height: 235px;
-      padding: 35px;
-      border: 1px solid #57347c;
-      border-radius: 20px;
-      background:
-        radial-gradient(ellipse at 85% 20%, #6933a966, transparent 45%),
-        linear-gradient(120deg, #251438, #151020 70%);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin-bottom: 35px;
-    }
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 340px;
+  padding: 48px;
+  border: 1px solid #7541a8;
+  border-radius: 22px;
+  background:
+    linear-gradient(90deg, #100817 0%, #160b24eF 38%, #190d27a8 68%, #12091966 100%),
+    radial-gradient(ellipse at 80% 40%, #a855f766, transparent 48%),
+    linear-gradient(135deg, #32134e, #100817 75%);
+  box-shadow:
+    0 0 35px #8b5cf622,
+    inset 0 0 45px #a855f711;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(115deg, transparent 30%, #c084fc12 55%, transparent 75%);
+  pointer-events: none;
+}
+
+.hero h1 {
+  max-width: 650px;
+  font-size: clamp(36px, 5vw, 62px);
+  line-height: 1.08;
+  letter-spacing: -2px;
+  text-shadow: 0 0 30px #a855f744;
+  margin: 16px 0;
+}
+
+.hero p {
+  color: #d0c2df;
+  max-width: 480px;
+  line-height: 1.8;
+  font-size: 15px;
+  margin: 0 0 25px;
+}
 
     .eyebrow {
       color: #d8b4fe;
