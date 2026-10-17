@@ -911,7 +911,7 @@ if (currentFilter === "Watch Parties") {
 
 <div class="rating-panel">
   <h3>⭐ Rate this anime</h3>
-  <p id="ratingAverage">Average rating: calculating...</p>
+  <p id="ratingAverage">No rating submitted yet.</p>
   <div class="rating-buttons" id="ratingButtons"></div>
   <p class="rating-status" id="ratingStatus" role="status">
     Choose a rating from 1 to 10.
@@ -929,8 +929,78 @@ if (currentFilter === "Watch Parties") {
           <p style="color:var(--muted);font-size:12px">This is a demo catalog. Video playback isn't connected yet.</p>
         </div>`;
 
+      renderRating(item);
+
       window.scrollTo({ top: 0, behavior: settings.animations ? "smooth" : "auto" });
     }
+
+  
+function getSavedRatings() {
+  try {
+    return JSON.parse(localStorage.getItem("aninova-ratings") || "{}");
+  } catch (error) {
+    return {};
+  }
+}
+
+function saveRating(animeTitle, score) {
+  const ratings = getSavedRatings();
+
+  ratings[animeTitle] = score;
+
+  try {
+    localStorage.setItem("aninova-ratings", JSON.stringify(ratings));
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+function renderRating(item) {
+  const buttons = document.getElementById("ratingButtons");
+  const averageText = document.getElementById("ratingAverage");
+  const status = document.getElementById("ratingStatus");
+
+  if (!buttons || !averageText || !status) return;
+
+  const ratings = getSavedRatings();
+  const myRating = ratings[item.title] ?? null;
+
+  buttons.innerHTML = "";
+
+  for (let score = 1; score <= 10; score++) {
+    const button = document.createElement("button");
+
+    button.className = "rating-button";
+    button.textContent = score;
+    button.type = "button";
+    button.setAttribute("aria-label", `Rate ${item.title} ${score} out of 10`);
+    button.setAttribute("aria-pressed", String(myRating === score));
+
+    if (myRating === score) {
+      button.classList.add("selected");
+    }
+
+    button.addEventListener("click", () => {
+      if (!saveRating(item.title, score)) {
+        status.textContent = "Couldn't save your rating in this browser.";
+        return;
+      }
+
+      renderRating(item);
+    });
+
+    buttons.appendChild(button);
+  }
+
+  averageText.textContent = myRating === null
+    ? "No rating submitted yet."
+    : `Your rating: ${myRating}/10`;
+
+  status.textContent = myRating === null
+    ? "Choose a rating from 1 to 10."
+    : "Your rating is saved on this device.";
+}
 
     function showHome() {
       document.getElementById("details-view").hidden = true;
