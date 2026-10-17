@@ -242,6 +242,47 @@
 
     .details h1 { font-size: 34px; }
     .details p { color: #c4b7d6; line-height: 1.8; }
+    /* Anime rating feature */
+.rating-panel {
+  margin: 24px 0;
+  padding: 20px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.rating-panel h3 {
+  margin-top: 0;
+}
+
+.rating-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.rating-button {
+  min-width: 40px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.rating-button:hover,
+.rating-button.selected {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: white;
+}
+
+.rating-status {
+  color: var(--muted);
+  font-size: 13px;
+}
     .episode-list { clear: both; padding-top: 15px; }
 
     .episode {
@@ -778,18 +819,33 @@
     function renderAnime() {
       const query = search.value.toLowerCase().trim();
 
-      const filtered = anime.filter(item => {
-        const matchesSearch = (item.title + " " + item.genres).toLowerCase().includes(query);
-        const matchesFilter =
-          currentFilter === "All" ||
-          (currentFilter === "Dub" && item.type === "Dub") ||
-          (currentFilter === "Sub" && item.type === "Sub") ||
-          (currentFilter === "Movie" && item.type === "Movie") ||
-          (currentFilter === "Trending" && item.trending) ||
-          (currentFilter === "Top Rated" && Number(item.rating) >= 9);
+      
+const filtered = anime.filter(item => {
+  const matchesSearch = (item.title + " " + item.genres)
+    .toLowerCase()
+    .includes(query);
 
-        return matchesSearch && matchesFilter;
-      });
+  const matchesFilter =
+    currentFilter === "All" ||
+    (currentFilter === "Dub" && item.type === "Dub") ||
+    (currentFilter === "Sub" && item.type === "Sub") ||
+    (currentFilter === "Movie" && item.type === "Movie") ||
+    (currentFilter === "Trending" && item.trending) ||
+    (currentFilter === "Top Rated" && Number(item.rating) >= 9);
+
+  return matchesSearch && matchesFilter;
+});
+if (currentFilter === "Watch Parties") {
+  document.getElementById("section-title").textContent = "Watch Parties";
+  document.getElementById("result-count").textContent = "Coming soon";
+  grid.innerHTML = `
+    <p class="empty">
+      🎬 Watch anime together with friends.
+      Watch Parties are coming soon to AniNova!
+    </p>
+  `;
+  return;
+}
 
       const titles = {
         "All": "Featured Anime",
@@ -852,7 +908,18 @@
           <h1>${item.title}</h1>
           <p>★ ${item.rating} / 10 &nbsp; · &nbsp; ${item.type === "Movie" ? "Movie" : item.episodes + " episodes"}</p>
           <p>${item.description}</p>
-          <p><strong>Audio:</strong> ${item.type === "Dub" ? "English dub demo category" : item.type === "Sub" ? "Subtitled demo category" : "Movie demo category"}</p>
+
+<div class="rating-panel">
+  <h3>⭐ Rate this anime</h3>
+  <p id="ratingAverage">Average rating: calculating...</p>
+  <div class="rating-buttons" id="ratingButtons"></div>
+  <p class="rating-status" id="ratingStatus" role="status">
+    Choose a rating from 1 to 10.
+  </p>
+</div>
+
+<p><strong>Audio:</strong>
+          ${item.type === "Dub" ? "English dub demo category" : item.type === "Sub" ? "Subtitled demo category" : "Movie demo category"}</p>
         </div>
         <div class="episode-list">
           <h2>${item.type === "Movie" ? "Movie information" : "Episodes"}</h2>
