@@ -491,6 +491,49 @@
     .creator-field textarea{min-height:90px;resize:vertical}.notice{color:var(--muted);font-size:13px;line-height:1.5}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:var(--accent-soft);font-size:12px;color:var(--purple)}
     .modal-backdrop{position:fixed;inset:0;background:#05030bcc;display:none;align-items:center;justify-content:center;padding:18px;z-index:30}.modal-card{width:min(520px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:24px;box-shadow:0 20px 80px #0008}.modal-card h2{margin-top:0}.modal-close{float:right;background:transparent;color:var(--text);border:0;font-size:22px;cursor:pointer}.feature-strip{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 22px}
     @media(max-width:650px){header{gap:10px;flex-wrap:wrap}.account-actions{width:100%;justify-content:flex-end}.search{max-width:none;order:3;flex-basis:100%}}
+    
+/* Floating messages button */
+.messages-float {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 22px;
+  min-width: 150px;
+  border: 1px solid #c084fc;
+  border-radius: 12px;
+  background: var(--purple);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 28px #0006;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.messages-float:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px var(--glow);
+}
+
+.messages-float:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .messages-float {
+    right: 14px;
+    bottom: 14px;
+    min-width: 0;
+    padding: 13px 17px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -1126,5 +1169,55 @@ function renderRating(item) {
     applySettings();
     renderAnime();
   </script>
+  <button class="messages-float" type="button">
+  💬 Messages
+</button>
 </body>
 </html>
+
+/* Floating messages button */
+.messages-float {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 15px 22px;
+  min-width: 150px;
+
+  border: 1px solid #c084fc;
+  border-radius: 12px;
+  background: var(--purple);
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+
+  box-shadow: 0 8px 28px #0006;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.messages-float:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px var(--glow);
+}
+
+.messages-float:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .messages-float {
+    right: 14px;
+    bottom: 14px;
+    min-width: 0;
+    padding: 13px 17px;
+  }
+}
