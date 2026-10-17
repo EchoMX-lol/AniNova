@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -440,6 +439,17 @@
       .anime-card h3 { font-size: 14px; }
       .settings-content { padding: 25px 20px; }
     }
+
+    /* AniNova creator features */
+    .account-actions{display:flex;gap:9px;align-items:center;white-space:nowrap}
+    .action-btn{border:1px solid var(--border);background:var(--card);color:var(--text);padding:10px 13px;border-radius:10px;cursor:pointer;font-weight:700}
+    .action-btn.primary{background:var(--purple);color:#fff;border-color:transparent}
+    .creator-panel{display:none;padding:24px;margin:24px 0;background:var(--panel);border:1px solid var(--border);border-radius:16px}
+    .creator-panel h2{margin-top:0}.creator-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .creator-field{display:flex;flex-direction:column;gap:7px;margin:12px 0}.creator-field input,.creator-field textarea,.creator-field select{background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:11px;font:inherit;width:100%}
+    .creator-field textarea{min-height:90px;resize:vertical}.notice{color:var(--muted);font-size:13px;line-height:1.5}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:var(--accent-soft);font-size:12px;color:var(--purple)}
+    .modal-backdrop{position:fixed;inset:0;background:#05030bcc;display:none;align-items:center;justify-content:center;padding:18px;z-index:30}.modal-card{width:min(520px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:24px;box-shadow:0 20px 80px #0008}.modal-card h2{margin-top:0}.modal-close{float:right;background:transparent;color:var(--text);border:0;font-size:22px;cursor:pointer}.feature-strip{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 22px}
+    @media(max-width:650px){header{gap:10px;flex-wrap:wrap}.account-actions{width:100%;justify-content:flex-end}.search{max-width:none;order:3;flex-basis:100%}}
   </style>
 </head>
 <body>
@@ -447,6 +457,10 @@
     <div class="logo">Ani<span>Nova</span></div>
     <div class="search">
       <input id="search" type="search" placeholder="Search anime..." aria-label="Search anime">
+    </div>
+    <div class="account-actions">
+      <button class="action-btn" id="openProfile">👤 Profile</button>
+      <button class="action-btn primary" id="openAuth">Sign in</button>
     </div>
   </header>
 
@@ -482,6 +496,14 @@
         <div class="anime-grid" id="anime-grid"></div>
       </section>
 
+      <section class="creator-panel" id="creatorPanel">
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap"><div><span class="pill">CREATOR STUDIO</span><h2>Make your mark on AniNova</h2><p class="notice">Build your creator profile and prepare animation submissions. Publishing requires an approved verified-animator account.</p></div><button class="action-btn" id="hideCreator">Close</button></div>
+        <div class="feature-strip"><span class="pill">Profiles</span><span class="pill">Animation uploads</span><span class="pill">Community</span><span class="pill">Recommendations</span></div>
+        <div class="creator-grid">
+          <div><h3>Public profile</h3><label class="creator-field">Unique username<input id="creatorUsername" maxlength="24" placeholder="yourname"></label><label class="creator-field">Display name<input id="creatorDisplay" maxlength="40" placeholder="Name fans see"></label><label class="creator-field">Bio<textarea id="creatorBio" maxlength="300" placeholder="Tell people about your work..."></textarea></label><button class="action-btn primary" id="saveProfile">Save profile draft</button></div>
+          <div><h3>Submit an animation</h3><label class="creator-field">Project title<input id="projectTitle" maxlength="80" placeholder="Animation title"></label><label class="creator-field">Description<textarea id="projectDescription" maxlength="1000" placeholder="Tell viewers about this animation"></textarea></label><label class="creator-field">Video file<input id="projectVideo" type="file" accept="video/mp4,video/webm,video/quicktime"></label><p class="notice">Prototype limit: 50 MB per video and 10 minutes. Submissions need review before they become public. This demo does not upload files to a server yet.</p><button class="action-btn primary" id="submitProject">Prepare submission</button></div>
+        </div><p id="creatorStatus" class="notice" role="status" aria-live="polite"></p>
+      </section>
       <section id="details-view" hidden>
         <button class="back-btn" id="back-btn">← Back to anime</button>
         <div class="details" id="details-content"></div>
@@ -490,6 +512,8 @@
       <footer>Made for anime fans, by anime fans. · AniNova</footer>
     </main>
   </div>
+
+  <div class="modal-backdrop" id="authModal"><div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="authTitle"><button class="modal-close" id="closeAuth" aria-label="Close">×</button><h2 id="authTitle">Welcome to AniNova</h2><p class="notice">Sign-in interface preview. Authentication will activate after Supabase is configured.</p><label class="creator-field">Email<input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></label><label class="creator-field">Password<input id="authPassword" type="password" autocomplete="current-password" placeholder="At least 8 characters"></label><button class="action-btn primary" id="emailSignIn">Continue with email</button> <button class="action-btn" id="googleSignIn">Continue with Google</button><p class="notice" id="authStatus" role="status">Your password is not sent anywhere in this preview.</p></div></div>
 
   <!-- Settings panel -->
   <div id="settingsPanel" class="settings-panel" style="display: none;">
@@ -927,6 +951,39 @@
       });
     });
 
+
+    // Creator/auth UI preview. These actions are local-only until the Supabase backend is configured.
+    const creatorPanel = document.getElementById("creatorPanel");
+    const authModal = document.getElementById("authModal");
+    document.getElementById("openProfile").addEventListener("click", () => {
+      creatorPanel.style.display = creatorPanel.style.display === "block" ? "none" : "block";
+      creatorPanel.scrollIntoView({behavior: settings.animations ? "smooth" : "auto", block: "start"});
+    });
+    document.getElementById("hideCreator").addEventListener("click", () => creatorPanel.style.display = "none");
+    document.getElementById("openAuth").addEventListener("click", () => { authModal.style.display = "flex"; document.getElementById("authStatus").textContent = "Preview only: connect Supabase before using real accounts."; });
+    document.getElementById("closeAuth").addEventListener("click", () => authModal.style.display = "none");
+    authModal.addEventListener("click", e => { if (e.target === authModal) authModal.style.display = "none"; });
+    document.getElementById("emailSignIn").addEventListener("click", () => { document.getElementById("authStatus").textContent = "Not connected yet. No account was created and no credentials were sent."; });
+    document.getElementById("googleSignIn").addEventListener("click", () => { document.getElementById("authStatus").textContent = "Google sign-in will work after Supabase OAuth is connected to this site."; });
+    document.getElementById("saveProfile").addEventListener("click", () => {
+      const username = document.getElementById("creatorUsername").value.trim().replace(/^@/, "");
+      if (!/^[a-zA-Z0-9_]{3,24}$/.test(username)) { document.getElementById("creatorStatus").textContent = "Choose a username with 3–24 letters, numbers, or underscores."; return; }
+      const draft = { username, displayName: document.getElementById("creatorDisplay").value.trim(), bio: document.getElementById("creatorBio").value.trim() };
+      try { localStorage.setItem("aninova-profile-draft", JSON.stringify(draft)); document.getElementById("creatorStatus").textContent = "Profile draft saved on this device only. It is not public or synced yet."; }
+      catch { document.getElementById("creatorStatus").textContent = "Could not save the draft in this browser."; }
+    });
+    document.getElementById("submitProject").addEventListener("click", () => {
+      const title = document.getElementById("projectTitle").value.trim();
+      const file = document.getElementById("projectVideo").files[0];
+      const status = document.getElementById("creatorStatus");
+      if (!title || !file) { status.textContent = "Add a project title and choose a video first."; return; }
+      if (file.size > 50 * 1024 * 1024) { status.textContent = "That file is over the 50 MB prototype limit. Choose a smaller video."; return; }
+      status.textContent = "Submission details checked locally. No video was uploaded; secure storage and admin review need the backend setup.";
+    });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") { authModal.style.display = "none"; creatorPanel.style.display = "none"; } });
+
+    // Restore locally saved profile draft, if present.
+    try { const draft = JSON.parse(localStorage.getItem("aninova-profile-draft") || "null"); if (draft) { document.getElementById("creatorUsername").value = draft.username || ""; document.getElementById("creatorDisplay").value = draft.displayName || ""; document.getElementById("creatorBio").value = draft.bio || ""; } } catch {}
     applySettings();
     renderAnime();
   </script>
