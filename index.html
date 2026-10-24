@@ -777,11 +777,44 @@
   }
 }
 
+.logo-with-mascot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.logo-mascot {
+  position: absolute;
+  z-index: 2;
+  right: -13px;
+  top: -20px;
+  font-size: 25px;
+  line-height: 1;
+  transform: rotate(12deg);
+  filter: drop-shadow(0 0 6px #a855f7);
+  pointer-events: none;
+  animation: mascotPeek 3s ease-in-out infinite;
+}
+
+@keyframes mascotPeek {
+  0%, 100% { transform: translateY(0) rotate(12deg); }
+  50% { transform: translateY(-4px) rotate(5deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-mascot { animation: none; }
+}
+
   </style>
 </head>
 <body>
   <header>
-    <div class="logo">Ani<span>Nova</span></div>
+    
+<div class="logo logo-with-mascot">
+  <span class="logo-mascot" aria-hidden="true">🦊</span>
+  Ani<span>Nova</span>
+</div>
+
     <div class="search">
       <input id="search" type="search" placeholder="Search anime..." aria-label="Search anime">
     </div>
