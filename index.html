@@ -109,7 +109,8 @@
 
     main { flex: 1; min-width: 0; padding: 34px 4%; }
 
-    .hero {
+ 
+.hero {
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -117,23 +118,35 @@
   padding: clamp(28px, 5vw, 68px);
   border: 1px solid var(--purple);
   border-radius: 24px;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(12, 9, 20, 0.98) 0%,
-      rgba(12, 9, 20, 0.88) 38%,
-      rgba(12, 9, 20, 0.35) 100%
-    ),
-    url("https://i.ibb.co/RTbWGDPc/Screenshot-2026-10-15-11-46-49-PM.png")
-      center 35% / cover no-repeat;
-  box-shadow:
-    0 15px 60px #0006,
-    0 0 35px var(--glow);
+  background: #100b1b;
+  box-shadow: 0 15px 60px #0006, 0 0 35px var(--glow);
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: center;
   margin-bottom: 48px;
+}
+
+.hero-slide-bg {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 1;
+  transition: opacity 0.7s ease, transform 7s linear;
+  transform: scale(1.02);
+}
+
+.hero-slide-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(12, 9, 20, 0.98) 0%,
+    rgba(12, 9, 20, 0.86) 38%,
+    rgba(12, 9, 20, 0.28) 100%
+  );
 }
 
 .hero::before {
@@ -141,19 +154,119 @@
   position: absolute;
   z-index: -1;
   inset: 0;
-  background:
-    radial-gradient(
-      ellipse at 85% 45%,
-      var(--glow),
-      transparent 55%
-    ),
-    linear-gradient(
-      0deg,
-      rgba(12, 9, 20, 0.45),
-      transparent 65%
-    );
+  background: radial-gradient(
+    ellipse at 85% 45%,
+    var(--glow),
+    transparent 55%
+  );
   pointer-events: none;
 }
+
+.hero-content {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.hero-content.is-changing {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.hero-arrow {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 52px;
+  border: 1px solid #ffffff44;
+  border-radius: 12px;
+  background: #100b1bcc;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.hero-arrow:hover {
+  background: var(--purple);
+  border-color: var(--purple);
+}
+
+.hero-prev {
+  left: 16px;
+}
+
+.hero-next {
+  right: 16px;
+}
+
+.hero-indicators {
+  position: absolute;
+  z-index: 3;
+  right: 26px;
+  bottom: 22px;
+  display: flex;
+  gap: 8px;
+}
+
+.hero-indicator {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 0;
+  border-radius: 99px;
+  background: #ffffff77;
+  cursor: pointer;
+  transition: width 0.25s, background 0.25s;
+}
+
+.hero-indicator.active {
+  width: 28px;
+  background: var(--purple);
+}
+
+@media (max-width: 560px) {
+  .hero {
+    min-height: 390px;
+    padding: 28px 22px;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+    letter-spacing: -1px;
+  }
+
+  .hero-arrow {
+    top: auto;
+    bottom: 12px;
+    width: 36px;
+    height: 40px;
+    transform: none;
+  }
+
+  .hero-prev {
+    left: 14px;
+  }
+
+  .hero-next {
+    right: 14px;
+  }
+
+  .hero-indicators {
+    right: 50%;
+    bottom: 26px;
+    transform: translateX(50%);
+  }
+
+  .hero-highlights span {
+    font-size: 11px;
+  }
+}
+
 
 .hero h1 {
   max-width: 720px;
@@ -658,28 +771,41 @@
 
     <main>
       <section id="home-view">
-        <div class="hero">
-  <div class="eyebrow">WATCH · CREATE · SHARE</div>
+       <div class="hero" id="heroSlideshow">
+  <div class="hero-slide-bg" id="heroSlideBg"></div>
 
-  <h1>Every great story starts somewhere.</h1>
+  <div class="hero-content" id="heroContent">
+    <div class="eyebrow">WATCH · CREATE · SHARE</div>
 
-  <p>
-    Discover incredible anime, explore original manga, and bring your
-    own worlds to life with a community of creators on AniNova.
-  </p>
+    <h1 id="heroTitle">Every great story starts somewhere.</h1>
 
-  <div class="hero-actions">
-    <button id="exploreBtn">Explore Anime →</button>
-    <button id="heroCreateBtn" class="action-btn">
-      ✨ Start Creating
-    </button>
+    <p id="heroDescription">
+      Discover incredible anime, explore original manga, and bring
+      your own worlds to life with a community of creators on AniNova.
+    </p>
+
+    <div class="hero-actions">
+      <button id="exploreBtn">Explore Anime →</button>
+      <button id="heroCreateBtn" class="action-btn">
+        ✨ Start Creating
+      </button>
+    </div>
+
+    <div class="hero-highlights">
+      <span>🎬 Anime & Animation</span>
+      <span>📖 Manga & Comics</span>
+      <span>🌟 Original Stories</span>
+    </div>
   </div>
 
-  <div class="hero-highlights">
-    <span>🎬 Anime & Animation</span>
-    <span>📖 Manga & Comics</span>
-    <span>🌟 Original Stories</span>
-  </div>
+  <button class="hero-arrow hero-prev" id="heroPrev"
+          aria-label="Previous featured anime">‹</button>
+
+  <button class="hero-arrow hero-next" id="heroNext"
+          aria-label="Next featured anime">›</button>
+
+  <div class="hero-indicators" id="heroIndicators"
+       aria-label="Choose featured anime"></div>
 </div>
 
         <div class="section-head" id="anime-section">
@@ -1286,6 +1412,100 @@ function renderRating(item) {
 
     // Restore locally saved profile draft, if present.
     try { const draft = JSON.parse(localStorage.getItem("aninova-profile-draft") || "null"); if (draft) { document.getElementById("creatorUsername").value = draft.username || ""; document.getElementById("creatorDisplay").value = draft.displayName || ""; document.getElementById("creatorBio").value = draft.bio || ""; } } catch {}
+    
+    // AniNova featured anime slideshow
+    const heroSlides = anime.slice(0, 3);
+    const heroBg = document.getElementById("heroSlideBg");
+    const heroContent = document.getElementById("heroContent");
+    const heroTitle = document.getElementById("heroTitle");
+    const heroDescription = document.getElementById("heroDescription");
+    const heroIndicators = document.getElementById("heroIndicators");
+    const heroPrev = document.getElementById("heroPrev");
+    const heroNext = document.getElementById("heroNext");
+
+    let activeHeroSlide = 0;
+    let heroTimer;
+
+    function showHeroSlide(index) {
+      activeHeroSlide =
+        (index + heroSlides.length) % heroSlides.length;
+
+      const item = heroSlides[activeHeroSlide];
+
+      heroContent.classList.add("is-changing");
+
+      window.setTimeout(() => {
+        heroBg.style.backgroundImage = `url("${item.image}")`;
+        heroTitle.textContent = item.title;
+        heroDescription.textContent = item.description;
+
+        heroTitle.style.maxWidth = "720px";
+
+        heroIndicators.querySelectorAll("button").forEach((button, i) => {
+          button.classList.toggle("active", i === activeHeroSlide);
+          button.setAttribute("aria-current",
+            i === activeHeroSlide ? "true" : "false");
+        });
+
+        heroContent.classList.remove("is-changing");
+      }, settings.animations ? 350 : 0);
+    }
+
+    function startHeroSlideshow() {
+      window.clearInterval(heroTimer);
+
+      if (settings.animations && heroSlides.length > 1) {
+        heroTimer = window.setInterval(() => {
+          showHeroSlide(activeHeroSlide + 1);
+        }, 7000);
+      }
+    }
+
+    heroSlides.forEach((item, index) => {
+      const dot = document.createElement("button");
+      dot.className = "hero-indicator";
+      dot.type = "button";
+      dot.setAttribute("aria-label", `Show ${item.title}`);
+      dot.addEventListener("click", () => {
+        showHeroSlide(index);
+        startHeroSlideshow();
+      });
+      heroIndicators.appendChild(dot);
+    });
+
+    heroPrev.addEventListener("click", () => {
+      showHeroSlide(activeHeroSlide - 1);
+      startHeroSlideshow();
+    });
+
+    heroNext.addEventListener("click", () => {
+      showHeroSlide(activeHeroSlide + 1);
+      startHeroSlideshow();
+    });
+
+    showHeroSlide(0);
+    startHeroSlideshow();
+
+    // Pause automatic rotation while the user hovers over the hero.
+    const heroSlideshow = document.getElementById("heroSlideshow");
+
+    heroSlideshow.addEventListener("mouseenter", () => {
+      window.clearInterval(heroTimer);
+    });
+
+    heroSlideshow.addEventListener("mouseleave", startHeroSlideshow);
+
+    // Keep keyboard users able to pause automatic rotation.
+    heroSlideshow.addEventListener("focusin", () => {
+      window.clearInterval(heroTimer);
+    });
+
+    heroSlideshow.addEventListener("focusout", event => {
+      if (!heroSlideshow.contains(event.relatedTarget)) {
+        startHeroSlideshow();
+      }
+    });
+
     applySettings();
     renderAnime();
   </script>
