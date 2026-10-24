@@ -110,32 +110,122 @@
     main { flex: 1; min-width: 0; padding: 34px 4%; }
 
     .hero {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      min-height: 340px;
-      padding: 48px;
-      border: 1px solid var(--purple);
-      border-radius: 22px;
-      background:
-        linear-gradient(90deg, var(--bg) 0%, var(--panel) 48%, transparent 100%),
-        radial-gradient(ellipse at 80% 40%, var(--glow), transparent 60%),
-        linear-gradient(135deg, var(--accent-soft), var(--bg) 75%);
-      box-shadow: 0 0 35px var(--glow), inset 0 0 45px var(--glow);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin-bottom: 40px;
-    }
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 440px;
+  padding: clamp(28px, 5vw, 68px);
+  border: 1px solid var(--purple);
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(12, 9, 20, 0.98) 0%,
+      rgba(12, 9, 20, 0.88) 38%,
+      rgba(12, 9, 20, 0.35) 100%
+    ),
+    url("https://i.ibb.co/RTbWGDPc/Screenshot-2026-10-15-11-46-49-PM.png")
+      center 35% / cover no-repeat;
+  box-shadow:
+    0 15px 60px #0006,
+    0 0 35px var(--glow);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 48px;
+}
 
-    .hero::before {
-      content: "";
-      position: absolute;
-      z-index: -1;
-      inset: 0;
-      background: linear-gradient(115deg, transparent 30%, var(--glow) 55%, transparent 75%);
-      pointer-events: none;
-    }
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse at 85% 45%,
+      var(--glow),
+      transparent 55%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(12, 9, 20, 0.45),
+      transparent 65%
+    );
+  pointer-events: none;
+}
+
+.hero h1 {
+  max-width: 720px;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  text-shadow: 0 3px 24px #0009;
+  margin: 16px 0;
+}
+
+.hero p {
+  color: #e0d6ef;
+  max-width: 540px;
+  font-size: 17px;
+  line-height: 1.8;
+  margin: 0 0 26px;
+}
+
+.hero button {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hero button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px var(--glow);
+}
+
+@media (max-width: 560px) {
+  .hero {
+    min-height: 360px;
+    padding: 28px 22px;
+    background-position: 60% center;
+  }
+
+  .hero h1 {
+    font-size: 38px;
+    letter-spacing: -1px;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+}
+    .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.hero-actions .action-btn {
+  padding: 12px 19px;
+  border-color: #ffffff55;
+  background: #ffffff12;
+  backdrop-filter: blur(8px);
+}
+
+.hero-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-highlights span {
+  padding: 8px 12px;
+  border: 1px solid #ffffff26;
+  border-radius: 999px;
+  background: #100c1b99;
+  color: #e6dcf5;
+  font-size: 12px;
+}
 
     .hero h1 {
       max-width: 650px;
@@ -569,11 +659,28 @@
     <main>
       <section id="home-view">
         <div class="hero">
-          <div class="eyebrow">YOUR NEXT ADVENTURE STARTS HERE</div>
-          <h1>Enter the world of anime.</h1>
-          <p>Discover new worlds, unforgettable characters, and your next favorite series with AniNova.</p>
-          <button id="exploreBtn">Explore Anime →</button>
-        </div>
+  <div class="eyebrow">WATCH · CREATE · SHARE</div>
+
+  <h1>Every great story starts somewhere.</h1>
+
+  <p>
+    Discover incredible anime, explore original manga, and bring your
+    own worlds to life with a community of creators on AniNova.
+  </p>
+
+  <div class="hero-actions">
+    <button id="exploreBtn">Explore Anime →</button>
+    <button id="heroCreateBtn" class="action-btn">
+      ✨ Start Creating
+    </button>
+  </div>
+
+  <div class="hero-highlights">
+    <span>🎬 Anime & Animation</span>
+    <span>📖 Manga & Comics</span>
+    <span>🌟 Original Stories</span>
+  </div>
+</div>
 
         <div class="section-head" id="anime-section">
           <h2 id="section-title">Featured Anime</h2>
@@ -936,6 +1043,19 @@ if (currentFilter === "Watch Parties") {
             showDetails(item);
           }
         });
+
+        document.getElementById("heroCreateBtn").addEventListener("click", () => {
+  document.getElementById("home-view").hidden = true;
+  document.getElementById("details-view").hidden = true;
+
+  const creatorPanel = document.getElementById("creatorPanel");
+  creatorPanel.style.display = "block";
+
+  creatorPanel.scrollIntoView({
+    behavior: settings.animations ? "smooth" : "auto",
+    block: "start"
+  });
+});
 
         grid.appendChild(card);
       });
