@@ -1336,6 +1336,8 @@
 
     function renderAnime() {
       const query = search.value.toLowerCase().trim();
+      document.getElementById("heroSlideshow").style.display =
+  currentFilter === "All" ? "" : "none";
 
       
 const filtered = anime.filter(item => {
