@@ -1347,7 +1347,7 @@ const filtered = anime.filter(item => {
     (currentFilter === "Sub" && item.type === "Sub") ||
     (currentFilter === "Movie" && item.type === "Movie") ||
     (currentFilter === "Trending" && item.trending) ||
-    (currentFilter === "Top Rated" && Number(item.rating) >= 9);
+    (currentFilter === "Highest Rated" && Number(item.rating) >= 9);
 
   return matchesSearch && matchesFilter;
 });
