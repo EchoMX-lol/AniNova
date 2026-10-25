@@ -824,6 +824,110 @@
   object-position: left center;
 }
 
+/* Original Manga & Animation */
+#originals-section {
+  margin-top: 48px;
+  padding-bottom: 36px;
+}
+
+#originals-section .section-head {
+  margin-bottom: 20px;
+}
+
+#originals-section .section-subtitle {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.originals-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.original-card {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 145px minmax(0, 1fr);
+  min-height: 210px;
+  background: linear-gradient(135deg, #171124, #0c0914);
+  border: 1px solid #49276b;
+  border-radius: 16px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.original-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--purple);
+}
+
+.original-art {
+  display: grid;
+  place-items: center;
+  min-height: 100%;
+  font-size: 54px;
+  background:
+    radial-gradient(circle at 50% 30%, #8b5cf6aa, transparent 55%),
+    linear-gradient(145deg, #302040, #100b1c);
+}
+
+.animation-art {
+  background:
+    radial-gradient(circle at 50% 30%, #a855f7aa, transparent 55%),
+    linear-gradient(145deg, #211947, #0c0914);
+}
+
+.original-info {
+  padding: 20px;
+  min-width: 0;
+}
+
+.original-type {
+  color: var(--purple);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.original-info h3 {
+  margin: 9px 0;
+  color: var(--text);
+  font-size: 18px;
+}
+
+.original-info p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.original-creator {
+  display: inline-block;
+  margin-top: 6px;
+  color: #c9a7ff;
+  font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .originals-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .original-card {
+    grid-template-columns: 100px minmax(0, 1fr);
+  }
+
+  .original-info {
+    padding: 14px;
+  }
+
+  .original-art {
+    font-size: 40px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -905,6 +1009,40 @@
         </div>
         <div class="anime-grid" id="anime-grid"></div>
       </section>
+      
+<section id="originals-section">
+  <div class="section-head">
+    <h2>✨ Original Manga &amp; Animation</h2>
+    <span class="section-subtitle">Created by the community</span>
+  </div>
+
+  <div class="originals-grid">
+    <article class="original-card">
+      <div class="original-art manga-art">
+        <span>📖</span>
+      </div>
+      <div class="original-info">
+        <span class="original-type">MANGA &amp; COMICS</span>
+        <h3>Stories Beyond the Stars</h3>
+        <p>Discover original worlds, unforgettable characters, and stories created by independent artists.</p>
+        <span class="original-creator">✍️ Independent creators</span>
+      </div>
+    </article>
+
+    <article class="original-card">
+      <div class="original-art animation-art">
+        <span>🎬</span>
+      </div>
+      <div class="original-info">
+        <span class="original-type">ANIMATION</span>
+        <h3>Worlds in Motion</h3>
+        <p>Explore animated shorts, creative experiments, and original projects from rising animators.</p>
+        <span class="original-creator">🎨 Independent animators</span>
+      </div>
+    </article>
+  </div>
+</section>
+
 
       <section class="creator-panel" id="creatorPanel">
         <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap"><div><span class="pill">CREATOR STUDIO</span><h2>Make your mark on AniNova</h2><p class="notice">Build your creator profile and prepare animation submissions. Publishing requires an approved verified-animator account.</p></div><button class="action-btn" id="hideCreator">Close</button></div>
