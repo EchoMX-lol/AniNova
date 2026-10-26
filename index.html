@@ -935,11 +935,23 @@
     font-size: 40px;
   }
 }
-
+#sidebarToggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 20px;
+  cursor: pointer;
+}
+    .layout.sidebar-hidden aside {
+  display: none;
+}
   </style>
 </head>
 <body>
   <header>
+    <button id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
     
 <div class="logo logo-image">
   <img src="aninova-logo-transparent.png" alt="AniNova">
@@ -1334,7 +1346,12 @@
       applySettings();
       saveSettings();
     }
+const sidebarToggle = document.getElementById("sidebarToggle");
+const layout = document.querySelector(".layout");
 
+sidebarToggle.addEventListener("click", () => {
+  layout.classList.toggle("sidebar-hidden");
+});
     function renderAnime() {
       const query = search.value.toLowerCase().trim();
       const originalsSection = document.getElementById("originals-section");
