@@ -1337,6 +1337,18 @@
 
     function renderAnime() {
       const query = search.value.toLowerCase().trim();
+      const originalsSection = document.getElementById("originals-section");
+const originalCards = document.querySelectorAll(".original-card");
+
+originalsSection.style.display =
+  currentFilter === "Animations" || currentFilter === "Mangas"
+    ? ""
+    : "none";
+
+originalCards.forEach(card => {
+  card.style.display =
+    card.dataset.category === currentFilter ? "" : "none";
+});
       document.getElementById("heroSlideshow").style.display =
   currentFilter === "All" ? "" : "none";
 
