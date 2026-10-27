@@ -978,9 +978,17 @@ z-index: 1000;
       <input id="search" type="search" placeholder="Search anime..." aria-label="Search anime">
     </div>
     <div class="account-actions">
-      <button class="action-btn" id="openProfile">👤 Profile</button>
-      <button class="action-btn primary" id="openAuth">Sign in</button>
-    </div>
+  <button class="action-btn" id="openProfile">
+    <img
+      id="headerAvatar"
+      alt="Profile picture"
+      style="display:none;width:28px;height:28px;border-radius:50%;object-fit:cover;vertical-align:middle;"
+    >
+    <span id="profileButtonText">👤 Profile</span>
+  </button>
+
+  <button class="action-btn primary" id="openAuth">Sign in</button>
+</div>
   </header>
 
   
@@ -1189,13 +1197,34 @@ const supabaseClient = window.supabase.createClient(
 );
   supabaseClient.auth.onAuthStateChange((event, session) => {
   const signInButton = document.getElementById("openAuth");
+  const avatar = document.getElementById("headerAvatar");
+  const profileText = document.getElementById("profileButtonText");
 
-  if (!signInButton) return;
+  if (!signInButton || !avatar || !profileText) return;
 
-  if (session) {
+  if (session?.user) {
+    const user = session.user;
+    const avatarUrl = user.user_metadata?.avatar_url
+      || user.user_metadata?.picture;
+
     signInButton.textContent = "My Account";
+    profileText.textContent =
+      user.user_metadata?.full_name
+      || user.user_metadata?.name
+      || "Profile";
+
+    if (avatarUrl) {
+      avatar.src = avatarUrl;
+      avatar.style.display = "inline-block";
+    } else {
+      avatar.removeAttribute("src");
+      avatar.style.display = "none";
+    }
   } else {
     signInButton.textContent = "Sign In";
+    profileText.textContent = "👤 Profile";
+    avatar.removeAttribute("src");
+    avatar.style.display = "none";
   }
 });
     const anime = [
