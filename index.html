@@ -1733,11 +1733,28 @@ function renderRating(item) {
     });
     document.getElementById("hideCreator").addEventListener("click", () => creatorPanel.style.display = "none");
     
-document.getElementById("openAuth").addEventListener("click", () => {
+
+document.getElementById("openAuth").addEventListener("click", async () => {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (session?.user) {
+    authModal.style.display = "none";
+
+    const creatorPanel = document.getElementById("creatorPanel");
+    creatorPanel.style.display = "block";
+    creatorPanel.scrollIntoView({
+      behavior: settings.animations ? "smooth" : "auto",
+      block: "start"
+    });
+
+    return;
+  }
+
   authModal.style.display = "flex";
   document.getElementById("authStatus").textContent =
     "Sign in or create your AniNova account.";
 });
+
 
 document.getElementById("closeAuth").addEventListener("click", () => {
   authModal.style.display = "none";
