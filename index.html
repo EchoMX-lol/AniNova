@@ -1691,7 +1691,7 @@ function renderRating(item) {
       creatorPanel.style.display = creatorPanel.style.display === "block" ? "none" : "block";
       creatorPanel.scrollIntoView({behavior: settings.animations ? "smooth" : "auto", block: "start"});
     });
-    ocument.getElementById("hideCreator").addEventListener("click", () => creatorPanel.style.display = "none");
+    document.getElementById("hideCreator").addEventListener("click", () => creatorPanel.style.display = "none");
     
 document.getElementById("openAuth").addEventListener("click", () => {
   authModal.style.display = "flex";
