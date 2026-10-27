@@ -1187,6 +1187,17 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_PUBLISHABLE_KEY
 );
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+  const signInButton = document.getElementById("openAuth");
+
+  if (!signInButton) return;
+
+  if (session) {
+    signInButton.textContent = "My Account";
+  } else {
+    signInButton.textContent = "Sign In";
+  }
+});
     const anime = [
       {
         title: "Shadow Legends",
