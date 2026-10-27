@@ -1514,18 +1514,7 @@ if (currentFilter === "Watch Parties") {
           }
         });
 
-        document.getElementById("heroCreateBtn").addEventListener("click", () => {
-  document.getElementById("home-view").hidden = true;
-  document.getElementById("details-view").hidden = true;
-
-  const creatorPanel = document.getElementById("creatorPanel");
-  creatorPanel.style.display = "block";
-
-  creatorPanel.scrollIntoView({
-    behavior: settings.animations ? "smooth" : "auto",
-    block: "start"
-  });
-});
+        
 
         grid.appendChild(card);
       });
@@ -1706,7 +1695,20 @@ function renderRating(item) {
         behavior: settings.animations ? "smooth" : "auto"
       });
     });
+document.getElementById("heroCreateBtn").addEventListener("click", () => {
+  document.getElementById("home-view").hidden = true;
+  document.getElementById("details-view").hidden = true;
 
+  const creatorPanel = document.getElementById("creatorPanel");
+  creatorPanel.style.display = "block";
+
+  creatorPanel.scrollIntoView({
+    behavior: settings.animations ? "smooth" : "auto",
+    block: "start"
+  });
+});
+
+search.addEventListener("input", renderAnime);
     search.addEventListener("input", renderAnime);
 
     document.querySelectorAll(".nav-btn[data-filter]").forEach(button => {
