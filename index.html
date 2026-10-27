@@ -1695,18 +1695,30 @@ function renderRating(item) {
         behavior: settings.animations ? "smooth" : "auto"
       });
     });
-document.getElementById("heroCreateBtn").addEventListener("click", () => {
-  document.getElementById("home-view").hidden = true;
+
+const createButton = document.getElementById("heroCreateBtn");
+const creatorPanelElement = document.getElementById("creatorPanel");
+
+createButton.addEventListener("click", () => {
+  console.log("Start Creating clicked!");
+
+  if (!creatorPanelElement) {
+    alert("Error: AniNova could not find the Creator Studio panel.");
+    return;
+  }
+
+  document.getElementById("home-view").hidden = false;
   document.getElementById("details-view").hidden = true;
 
-  const creatorPanel = document.getElementById("creatorPanel");
-  creatorPanel.style.display = "block";
+  creatorPanelElement.style.display = "block";
+  creatorPanelElement.hidden = false;
 
-  creatorPanel.scrollIntoView({
-    behavior: settings.animations ? "smooth" : "auto",
+  creatorPanelElement.scrollIntoView({
+    behavior: "auto",
     block: "start"
   });
 });
+
 
 search.addEventListener("input", renderAnime);
     search.addEventListener("input", renderAnime);
