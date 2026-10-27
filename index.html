@@ -1178,6 +1178,13 @@ z-index: 1000;
   </div>
 
   <script>
+    const SUPABASE_URL = "https://xcxjordclydrgmskjcod.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_LhylLLjx4-bA_7gcOL_l5g_7epsYXxF";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
     const anime = [
       {
         title: "Shadow Legends",
