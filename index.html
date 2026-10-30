@@ -35,6 +35,13 @@ body.manga-mode {
   background-size: cover;
   background-position: center;
 }
+/* Anime World appearance */
+body.anime-mode {
+  background-color: #111;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+}
 
     header {
       min-height: 76px;
@@ -1169,6 +1176,7 @@ z-index: 1000;
           <option value="rose">Dark Rose</option>
           <option value="slate">Midnight Slate</option>
           <option value="manga">Manga Page</option>
+          <option value="anime">Anime World</option>
         </select>
       </div>
 
@@ -1413,6 +1421,9 @@ const supabaseClient = window.supabase.createClient(
       document.body.classList.toggle(
   "manga-mode",
   settings.background === "manga"
+        document.body.classList.toggle(
+  "anime-mode",
+  settings.background === "anime"
 );
 
       document.querySelectorAll(".color-choice").forEach(button => {
