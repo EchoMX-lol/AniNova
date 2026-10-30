@@ -1418,10 +1418,13 @@ const supabaseClient = window.supabase.createClient(
       root.style.setProperty("--muted", background.muted);
 
       document.body.classList.toggle("no-animations", !settings.animations);
-      document.body.classList.toggle(
+
+document.body.classList.toggle(
   "manga-mode",
   settings.background === "manga"
-        document.body.classList.toggle(
+);
+
+document.body.classList.toggle(
   "anime-mode",
   settings.background === "anime"
 );
