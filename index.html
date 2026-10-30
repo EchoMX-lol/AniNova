@@ -26,6 +26,15 @@
       color: var(--text);
       font-family: Arial, sans-serif;
     }
+    /* Manga Page appearance */
+body.manga-mode {
+  background-color: #111;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.48));
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
 
     header {
       min-height: 76px;
@@ -1159,6 +1168,7 @@ z-index: 1000;
           <option value="forest">Dark Forest</option>
           <option value="rose">Dark Rose</option>
           <option value="slate">Midnight Slate</option>
+          <option value="manga">Manga Page</option>
         </select>
       </div>
 
@@ -1400,6 +1410,10 @@ const supabaseClient = window.supabase.createClient(
       root.style.setProperty("--muted", background.muted);
 
       document.body.classList.toggle("no-animations", !settings.animations);
+      document.body.classList.toggle(
+  "manga-mode",
+  settings.background === "manga"
+);
 
       document.querySelectorAll(".color-choice").forEach(button => {
         button.setAttribute(
